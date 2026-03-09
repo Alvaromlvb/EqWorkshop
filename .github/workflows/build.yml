@@ -24,7 +24,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: Build executable
-      run: pyinstaller --onefile script.py
+      run: pyinstaller --onefile main.py
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
