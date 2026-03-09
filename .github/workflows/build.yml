@@ -48,4 +48,3 @@ jobs:
       with:
         name: EqWorkshop-${{ matrix.os }}
         path: dist/EqWorkshop.exe
-``
