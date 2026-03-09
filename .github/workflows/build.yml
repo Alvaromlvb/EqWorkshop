@@ -23,14 +23,29 @@ jobs:
       with:
         python-version: "3.10"
 
-    - name: Install dependencies
-      run: pip install -r requirements.txt
+    - name: Upgrade pip and install dependencies
+      run: |
+        python -m pip install --upgrade pip wheel
+        if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
+        python -m pip install pyinstaller
+      shell: bash
 
     - name: Build executable
-      run: pyinstaller --onefile --collect-all sympy EqWorkshop.py
+      run: |
+        python -m PyInstaller --onefile --collect-all sympy EqWorkshop.py
+      shell: bash
 
-    - name: Upload artifact
+    - name: Upload artifact (Linux/macOS)
+      if: runner.os != 'Windows'
       uses: actions/upload-artifact@v4
       with:
         name: EqWorkshop-${{ matrix.os }}
-        path: dist/
+        path: dist/EqWorkshop
+
+    - name: Upload artifact (Windows)
+      if: runner.os == 'Windows'
+      uses: actions/upload-artifact@v4
+      with:
+        name: EqWorkshop-${{ matrix.os }}
+        path: dist/EqWorkshop.exe
+``
